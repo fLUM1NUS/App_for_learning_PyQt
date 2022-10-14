@@ -1,0 +1,1 @@
+pyinstaller --noconfirm --onedir --windowed --icon "C:/Users/darte/PycharmProjects/App_for_learning_PyQt/res/App_logo-256.png" --name "PyQt-Leaner" --add-data "C:/Users/darte/PycharmProjects/App_for_learning_PyQt/UI;UI/" --add-data "C:/Users/darte/PycharmProjects/App_for_learning_PyQt/res;res/"  "C:/Users/darte/PycharmProjects/App_for_learning_PyQt/main.py"
