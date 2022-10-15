@@ -1,4 +1,5 @@
 import asyncio
+import logging
 import sys
 import time
 
@@ -39,10 +40,21 @@ class MenuWindow(QMainWindow):
         self.GoTryButton.clicked.connect(self.go_try)
 
     def go_learn(self):
-        pass
+        self.learn_window = LearnWindow()
+        self.learn_window.show()
+        self.hide()
 
     def go_try(self):
         pass
+
+
+class LearnWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi('UI/Learn_window.ui', self)  # Загружаем дизайн
+        # настраеваем параметры окна
+        self.setWindowIcon(QtGui.QIcon('res/App_logo-256.png'))
+        self.setWindowTitle('Учебник PyQt')
 
 
 if __name__ == '__main__':
