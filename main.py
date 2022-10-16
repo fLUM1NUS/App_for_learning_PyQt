@@ -1,12 +1,11 @@
-import asyncio
-import logging
+import os
 import sys
-import time
 
-from PyQt5 import uic, QtGui, QtCore
-from PyQt5.QtCore import QTimer, QFile, QTextStream
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel
+from PyQt5 import uic, QtGui, QtCore, QtWebEngine
+from PyQt5.QtCore import QFile, QTextStream
+from PyQt5.QtWidgets import QApplication, QMainWindow
+
+from PyQt5.QtWebEngineWidgets import QWebEngineView
 
 
 class StartWindow(QMainWindow):
@@ -45,10 +44,12 @@ class MenuWindow(QMainWindow):
         self.hide()
 
     def go_try(self):
-        pass
+        self.try_window = TryWindow()
+        self.try_window.show()
+        self.hide()
 
 
-class LearnWindow(QMainWindow):
+class LearnWindow(QMainWindow):  # (QtWebEngine.QtWebEngine): # (QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi('UI/Learn_window.ui', self)  # Загружаем дизайн
@@ -70,6 +71,13 @@ class LearnWindow(QMainWindow):
         self.Btn_12.clicked.connect(self.show_text)
         self.Btn_13.clicked.connect(self.show_text)
 
+        self.BackBtn.clicked.connect(self.go_back)
+
+    def go_back(self):
+        self.menu_window = MenuWindow()
+        self.menu_window.show()
+        self.hide()
+
     def show_text(self):
         match self.sender().objectName():
             case "Btn_1":
@@ -77,7 +85,7 @@ class LearnWindow(QMainWindow):
                     data = f.read()
                 self.textBrowser.setText(data)
             case "Btn_2":
-                with open('lessons/lesson_2.txt', mode='rt', encoding='utf-8') as f:
+                with open('lessons/lesson_2.html', mode='rt', encoding='utf-8') as f:
                     data = f.read()
                 self.textBrowser.setText(data)
             case "Btn_3":
@@ -85,9 +93,15 @@ class LearnWindow(QMainWindow):
                     data = f.read()
                 self.textBrowser.setText(data)
             case "Btn_4":
-                with open('lessons/lesson_4.txt', mode='rt', encoding='utf-8') as f:
-                    data = f.read()
-                self.textBrowser.setText(data)
+                PDFJS = '' # как прописать правильный путь? как вернуть привязку от размера окна для QWebEngineView
+                PDF = f'file://{os.path.abspath("lessons/pdf.pdf")}'
+                self.graphicsView.load(QtCore.QUrl.fromUserInput(f'{PDFJS}?file={PDF}'))
+
+            # self.graphicsView(QtCore.QUrl.fromUserInput('%s?file=%s' % 'pdf_js/web/viewer.html', 'lessons/pdf.pdf'))
+            # s.graphicsView(QtCore.QUrl.fromUserInput('%s?file=%s' % ("pdf_js/web/viewer.html", "lessons/pdf.pdf")))
+                # with open('lessons/lesson_4.txt', mode='rt', encoding='utf-8') as f:
+                #     data = f.read()
+                # self.textBrowser.setText(data)
             case "Btn_5":
                 with open('lessons/lesson_5.txt', mode='rt', encoding='utf-8') as f:
                     data = f.read()
@@ -125,6 +139,23 @@ class LearnWindow(QMainWindow):
                     data = f.read()
                 self.textBrowser.setText(data)
 
+# self.textBrowser.anchorClicked.connect(QtGui.QDesktopServices.openUrl)
+
+
+class TryWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi('UI/Try_window.ui', self)  # Загружаем дизайн
+        # настраеваем параметры окна
+        self.setWindowIcon(QtGui.QIcon('res/App_logo-256.png'))
+        self.setWindowTitle('Учебник PyQt')
+
+        self.BackBtn.clicked.connect(self.go_back)
+
+    def go_back(self):
+        self.menu_window = MenuWindow()
+        self.menu_window.show()
+        self.hide()
 
 
 if __name__ == '__main__':
