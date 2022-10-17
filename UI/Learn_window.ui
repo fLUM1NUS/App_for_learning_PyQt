@@ -446,7 +446,7 @@
   <property name="toolButtonStyle">
    <enum>Qt::ToolButtonIconOnly</enum>
   </property>
-  <widget class="QWidget" name="centralwidget">
+  <widget class="QWidget" name="centralwidget"> <!-- ////////////////////////////////////////////////////////////// -->
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
      <widget class="QScrollArea" name="ChooseScroll">
@@ -849,7 +849,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QTextBrowser" name="textBrowser">
+     <widget class="QWebEngineView" name="graphicsView">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
         <horstretch>45</horstretch>

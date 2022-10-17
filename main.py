@@ -1,12 +1,13 @@
-import os
 import sys
 
-from PyQt5 import uic, QtGui, QtCore, QtWebEngine
+from PyQt5 import uic, QtGui, QtCore, QtWebEngineWidgets, QtWidgets
 from PyQt5.QtCore import QFile, QTextStream
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
-from PyQt5.QtWebEngineWidgets import QWebEngineView
-
+if hasattr(QtCore.Qt, 'AA_EnableHighDpiScaling'):
+    QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
+if hasattr(QtCore.Qt, 'AA_UseHighDpiPixmaps'):
+    QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
 
 class StartWindow(QMainWindow):
     def open_menu(self):
@@ -37,6 +38,7 @@ class MenuWindow(QMainWindow):
         # Привязываем к кнопкам действия
         self.GoLearnButton.clicked.connect(self.go_learn)
         self.GoTryButton.clicked.connect(self.go_try)
+        self.SettingsBtn.clicked.connect(self.go_settings)
 
     def go_learn(self):
         self.learn_window = LearnWindow()
@@ -48,8 +50,43 @@ class MenuWindow(QMainWindow):
         self.try_window.show()
         self.hide()
 
+    def go_settings(self):
+        self.sw = SettingsWindow()
+        self.sw.show()
+        self.hide()
 
-class LearnWindow(QMainWindow):  # (QtWebEngine.QtWebEngine): # (QMainWindow):
+
+class SettingsWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi('UI/Settings_window.ui', self)  # Загружаем дизайн
+        # настраеваем параметры окна
+        self.setWindowIcon(QtGui.QIcon('res/App_logo-256.png'))
+        self.setWindowTitle('Учебник PyQt')
+
+        self.BackBtn.clicked.connect(self.go_back)
+        self.EnDarkBtn.clicked.connect(self.set_theme)
+
+    def go_back(self):
+        self.menu_window = MenuWindow()
+        self.menu_window.show()
+        self.hide()
+
+    def set_theme(self):
+        with open('res/settings.txt', mode='r') as f:
+            th_settings = f.read()
+        if th_settings == 'True':
+            t_settings = 'False'
+            print('!T')
+        if th_settings == 'False':
+            print('!F')
+            t_settings = 'True'
+        with open('res/settings.txt', mode='w') as f:
+            f.write(t_settings)
+            print(t_settings)
+
+
+class LearnWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi('UI/Learn_window.ui', self)  # Загружаем дизайн
@@ -73,6 +110,14 @@ class LearnWindow(QMainWindow):  # (QtWebEngine.QtWebEngine): # (QMainWindow):
 
         self.BackBtn.clicked.connect(self.go_back)
 
+        self.graphicsView.settings().setAttribute(QtWebEngineWidgets.QWebEngineSettings.PluginsEnabled, True)
+        self.graphicsView.settings().setAttribute(QtWebEngineWidgets.QWebEngineSettings.PdfViewerEnabled, True)
+        self.graphicsView.settings().setAttribute(
+            QtWebEngineWidgets.QWebEngineSettings.LocalContentCanAccessFileUrls, True)
+        self.graphicsView.settings().setAttribute(
+            QtWebEngineWidgets.QWebEngineSettings.LocalContentCanAccessRemoteUrls, True)
+        self.PDFJS = 'file:///pdf_js/web/viewer.html'
+
     def go_back(self):
         self.menu_window = MenuWindow()
         self.menu_window.show()
@@ -81,65 +126,44 @@ class LearnWindow(QMainWindow):  # (QtWebEngine.QtWebEngine): # (QMainWindow):
     def show_text(self):
         match self.sender().objectName():
             case "Btn_1":
-                with open('lessons/lesson_1.txt', mode='rt', encoding='utf-8') as f:
-                    data = f.read()
-                self.textBrowser.setText(data)
+                PDF = 'file:///lessons/lesson_1.pdf'
+                self.graphicsView.load(QtCore.QUrl.fromUserInput('%s?file=%s' % (self.PDFJS, PDF)))
             case "Btn_2":
-                with open('lessons/lesson_2.html', mode='rt', encoding='utf-8') as f:
-                    data = f.read()
-                self.textBrowser.setText(data)
+                PDF = 'file:///lessons/lesson_2.pdf'
+                self.graphicsView.load(QtCore.QUrl.fromUserInput('%s?file=%s' % (self.PDFJS, PDF)))
             case "Btn_3":
-                with open('lessons/lesson_3.txt', mode='rt', encoding='utf-8') as f:
-                    data = f.read()
-                self.textBrowser.setText(data)
+                PDF = 'file:///lessons/lesson_3.pdf'
+                self.graphicsView.load(QtCore.QUrl.fromUserInput('%s?file=%s' % (self.PDFJS, PDF)))
             case "Btn_4":
-                PDFJS = '' # как прописать правильный путь? как вернуть привязку от размера окна для QWebEngineView
-                PDF = f'file://{os.path.abspath("lessons/pdf.pdf")}'
-                self.graphicsView.load(QtCore.QUrl.fromUserInput(f'{PDFJS}?file={PDF}'))
-
-            # self.graphicsView(QtCore.QUrl.fromUserInput('%s?file=%s' % 'pdf_js/web/viewer.html', 'lessons/pdf.pdf'))
-            # s.graphicsView(QtCore.QUrl.fromUserInput('%s?file=%s' % ("pdf_js/web/viewer.html", "lessons/pdf.pdf")))
-                # with open('lessons/lesson_4.txt', mode='rt', encoding='utf-8') as f:
-                #     data = f.read()
-                # self.textBrowser.setText(data)
+                PDF = 'file:///lessons/lesson_4.pdf'
+                self.graphicsView.load(QtCore.QUrl.fromUserInput('%s?file=%s' % (self.PDFJS, PDF)))
             case "Btn_5":
-                with open('lessons/lesson_5.txt', mode='rt', encoding='utf-8') as f:
-                    data = f.read()
-                self.textBrowser.setText(data)
+                PDF = 'file:///lessons/lesson_5.pdf'
+                self.graphicsView.load(QtCore.QUrl.fromUserInput('%s?file=%s' % (self.PDFJS, PDF)))
             case "Btn_6":
-                with open('lessons/lesson_6.txt', mode='rt', encoding='utf-8') as f:
-                    data = f.read()
-                self.textBrowser.setText(data)
+                PDF = 'file:///lessons/lesson_6.pdf'
+                self.graphicsView.load(QtCore.QUrl.fromUserInput('%s?file=%s' % (self.PDFJS, PDF)))
             case "Btn_7":
-                with open('lessons/lesson_7.txt', mode='rt', encoding='utf-8') as f:
-                    data = f.read()
-                self.textBrowser.setText(data)
+                PDF = 'file:///lessons/lesson_7.pdf'
+                self.graphicsView.load(QtCore.QUrl.fromUserInput('%s?file=%s' % (self.PDFJS, PDF)))
             case "Btn_8":
-                with open('lessons/lesson_8.txt', mode='rt', encoding='utf-8') as f:
-                    data = f.read()
-                self.textBrowser.setText(data)
+                PDF = 'file:///lessons/lesson_8.pdf'
+                self.graphicsView.load(QtCore.QUrl.fromUserInput('%s?file=%s' % (self.PDFJS, PDF)))
             case "Btn_9":
-                with open('lessons/lesson_9.txt', mode='rt', encoding='utf-8') as f:
-                    data = f.read()
-                self.textBrowser.setText(data)
+                PDF = 'file:///lessons/lesson_8.pdf'
+                self.graphicsView.load(QtCore.QUrl.fromUserInput('%s?file=%s' % (self.PDFJS, PDF)))
             case "Btn_10":
-                with open('lessons/lesson_10.txt', mode='rt', encoding='utf-8') as f:
-                    data = f.read()
-                self.textBrowser.setText(data)
+                PDF = 'file:///lessons/lesson_8.pdf'
+                self.graphicsView.load(QtCore.QUrl.fromUserInput('%s?file=%s' % (self.PDFJS, PDF)))
             case "Btn_11":
-                with open('lessons/lesson_11.txt', mode='rt', encoding='utf-8') as f:
-                    data = f.read()
-                self.textBrowser.setText(data)
+                PDF = 'file:///lessons/lesson_8.pdf'
+                self.graphicsView.load(QtCore.QUrl.fromUserInput('%s?file=%s' % (self.PDFJS, PDF)))
             case "Btn_12":
-                with open('lessons/lesson_12.txt', mode='rt', encoding='utf-8') as f:
-                    data = f.read()
-                self.textBrowser.setText(data)
+                PDF = 'file:///lessons/lesson_8.pdf'
+                self.graphicsView.load(QtCore.QUrl.fromUserInput('%s?file=%s' % (self.PDFJS, PDF)))
             case "Btn_13":
-                with open('lessons/lesson_13.txt', mode='rt', encoding='utf-8') as f:
-                    data = f.read()
-                self.textBrowser.setText(data)
-
-# self.textBrowser.anchorClicked.connect(QtGui.QDesktopServices.openUrl)
+                PDF = 'file:///lessons/lesson_8.pdf'
+                self.graphicsView.load(QtCore.QUrl.fromUserInput('%s?file=%s' % (self.PDFJS, PDF)))
 
 
 class TryWindow(QMainWindow):
@@ -161,10 +185,15 @@ class TryWindow(QMainWindow):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     # Подключение стилей {
-    file = QFile("res/darkstyle.qss")
-    file.open(QFile.ReadOnly | QFile.Text)
-    stream = QTextStream(file)
-    app.setStyleSheet(stream.readAll())
+    with open('res/settings.txt', mode='r') as f:
+        settings = f.read()
+    if not (settings == 'True' or settings == 'False'):
+        settings = 'False'
+    if settings == 'True':
+        file = QFile("res/darkstyle.qss")
+        file.open(QFile.ReadOnly | QFile.Text)
+        stream = QTextStream(file)
+        app.setStyleSheet(stream.readAll())
     # Подключение стилей }
     ex = StartWindow()
     ex.show()
