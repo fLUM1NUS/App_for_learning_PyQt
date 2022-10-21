@@ -77,13 +77,15 @@ class SettingsWindow(QMainWindow):
             th_settings = f.read()
         if th_settings == 'True':
             t_settings = 'False'
-            print('!T')
         if th_settings == 'False':
-            print('!F')
             t_settings = 'True'
         with open('res/settings.txt', mode='w') as f:
             f.write(t_settings)
             print(t_settings)
+        window = QtWidgets.QMainWindow()
+        window.show()
+        QtCore.QCoreApplication.quit()
+        QtCore.QProcess.startDetached(sys.executable, sys.argv)
 
 
 class LearnWindow(QMainWindow):
@@ -175,10 +177,32 @@ class TryWindow(QMainWindow):
         self.setWindowTitle('Учебник PyQt')
 
         self.BackBtn.clicked.connect(self.go_back)
+        self.TryQBrowserBtn.clicked.connect(self.go_try_html)
 
     def go_back(self):
         self.menu_window = MenuWindow()
         self.menu_window.show()
+        self.hide()
+
+    def go_try_html(self):
+        self.try_html_window = TryHtmlWindow()
+        self.try_html_window.show()
+        self.hide()
+
+
+class TryHtmlWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi('UI/TryHtml_window.ui', self)  # Загружаем дизайн
+        # настраеваем параметры окна
+        self.setWindowIcon(QtGui.QIcon('res/App_logo-256.png'))
+        self.setWindowTitle('Учебник PyQt')
+
+        self.BackBtn.clicked.connect(self.go_back)
+
+    def go_back(self):
+        self.try_window = TryWindow()
+        self.try_window.show()
         self.hide()
 
 

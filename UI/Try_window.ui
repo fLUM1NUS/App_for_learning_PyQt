@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>742</width>
-    <height>308</height>
+    <width>1052</width>
+    <height>772</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
@@ -25,16 +31,94 @@
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QPushButton" name="BackBtn">
-      <property name="maximumSize">
+     <widget class="QScrollArea" name="scrollArea">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
        <size>
-        <width>50</width>
-        <height>16777215</height>
+        <width>0</width>
+        <height>45</height>
        </size>
       </property>
-      <property name="text">
-       <string>Назад</string>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>45</height>
+       </size>
       </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>1032</width>
+         <height>43</height>
+        </rect>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="0" column="1">
+         <widget class="QPushButton" name="BackBtn">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>50</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Назад</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QPushButton" name="TryQBrowserBtn">
+          <property name="maximumSize">
+           <size>
+            <width>180</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="text">
+           <string>Опробовать QTextBrowser</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QPushButton" name="TryDBBtn">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>200</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Опробовать работу с базами данных</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
     <item>
@@ -133,6 +217,122 @@
        <string>Input Widgets</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
+       <item row="1" column="6" colspan="2">
+        <widget class="QSlider" name="horizontalSlider">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" rowspan="3" colspan="2">
+        <widget class="QTextEdit" name="textEdit">
+         <property name="html">
+          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;QTextEdit&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2" rowspan="3">
+        <widget class="QPlainTextEdit" name="plainTextEdit">
+         <property name="plainText">
+          <string>QPlainText</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="6" rowspan="3">
+        <widget class="QDial" name="dial">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="3">
+        <widget class="QSpinBox" name="spinBox">
+         <property name="suffix">
+          <string/>
+         </property>
+         <property name="prefix">
+          <string>QSpinBox: </string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="4">
+        <widget class="QDoubleSpinBox" name="doubleSpinBox">
+         <property name="minimumSize">
+          <size>
+           <width>150</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="prefix">
+          <string>QDoubleSpinBox: </string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="7">
+        <widget class="QKeySequenceEdit" name="keySequenceEdit">
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="accessibleName">
+          <string/>
+         </property>
+         <property name="keySequence">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="3" colspan="2">
+        <widget class="QTimeEdit" name="timeEdit">
+         <property name="displayFormat">
+          <string>HH:mm</string>
+         </property>
+         <property name="calendarPopup">
+          <bool>false</bool>
+         </property>
+         <property name="currentSectionIndex">
+          <number>0</number>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="5" colspan="3">
+        <widget class="QDateTimeEdit" name="dateTimeEdit">
+         <property name="date">
+          <date>
+           <year>2006</year>
+           <month>6</month>
+           <day>2</day>
+          </date>
+         </property>
+         <property name="time">
+          <time>
+           <hour>23</hour>
+           <minute>59</minute>
+           <second>59</second>
+          </time>
+         </property>
+         <property name="displayFormat">
+          <string>dd.MM.yyyy HH:mm:ss</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="3" colspan="2">
+        <widget class="QDateEdit" name="dateEdit">
+         <property name="date">
+          <date>
+           <year>2006</year>
+           <month>6</month>
+           <day>2</day>
+          </date>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="0" rowspan="2">
         <widget class="QComboBox" name="comboBox">
          <property name="minimumSize">
@@ -163,140 +363,24 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="6" colspan="2">
-        <widget class="QScrollBar" name="horizontalScrollBar">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="8" rowspan="6">
+       <item row="0" column="8" rowspan="8">
         <widget class="QSlider" name="verticalSlider">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
         </widget>
        </item>
-       <item row="0" column="9" rowspan="6">
+       <item row="0" column="9" rowspan="8">
         <widget class="QScrollBar" name="verticalScrollBar">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
         </widget>
        </item>
-       <item row="1" column="6" colspan="2">
-        <widget class="QSlider" name="horizontalSlider">
+       <item row="0" column="6" colspan="2">
+        <widget class="QScrollBar" name="horizontalScrollBar">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0" rowspan="3" colspan="2">
-        <widget class="QTextEdit" name="textEdit">
-         <property name="html">
-          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;QTextEdit&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="2" rowspan="3">
-        <widget class="QPlainTextEdit" name="plainTextEdit">
-         <property name="plainText">
-          <string>QPlainText</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="6" rowspan="3">
-        <widget class="QDial" name="dial">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="3">
-        <widget class="QSpinBox" name="spinBox">
-         <property name="suffix">
-          <string/>
-         </property>
-         <property name="prefix">
-          <string>QSpinBox: </string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="4">
-        <widget class="QDoubleSpinBox" name="doubleSpinBox">
-         <property name="minimumSize">
-          <size>
-           <width>150</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="prefix">
-          <string>QDoubleSpinBox: </string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="7">
-        <widget class="QKeySequenceEdit" name="keySequenceEdit">
-         <property name="minimumSize">
-          <size>
-           <width>100</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="accessibleName">
-          <string/>
-         </property>
-         <property name="keySequence">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="3" colspan="2">
-        <widget class="QTimeEdit" name="timeEdit">
-         <property name="displayFormat">
-          <string>HH:mm</string>
-         </property>
-         <property name="calendarPopup">
-          <bool>false</bool>
-         </property>
-         <property name="currentSectionIndex">
-          <number>0</number>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="3" colspan="2">
-        <widget class="QDateEdit" name="dateEdit">
-         <property name="date">
-          <date>
-           <year>2006</year>
-           <month>6</month>
-           <day>2</day>
-          </date>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="5" colspan="3">
-        <widget class="QDateTimeEdit" name="dateTimeEdit">
-         <property name="date">
-          <date>
-           <year>2006</year>
-           <month>6</month>
-           <day>2</day>
-          </date>
-         </property>
-         <property name="time">
-          <time>
-           <hour>23</hour>
-           <minute>59</minute>
-           <second>59</second>
-          </time>
-         </property>
-         <property name="displayFormat">
-          <string>dd.MM.yyyy HH:mm:ss</string>
          </property>
         </widget>
        </item>
