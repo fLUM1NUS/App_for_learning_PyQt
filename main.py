@@ -9,6 +9,7 @@ if hasattr(QtCore.Qt, 'AA_EnableHighDpiScaling'):
 if hasattr(QtCore.Qt, 'AA_UseHighDpiPixmaps'):
     QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
 
+
 class StartWindow(QMainWindow):
     def open_menu(self):
         self.main_window = MenuWindow()
@@ -199,6 +200,24 @@ class TryHtmlWindow(QMainWindow):
         self.setWindowTitle('Учебник PyQt')
 
         self.BackBtn.clicked.connect(self.go_back)
+        self.ConvertBtn.clicked.connect(self.convert)
+        self.LoadExampleBtn.clicked.connect(self.load_example)
+        self.LoadPatternBtn.clicked.connect(self.load_pattern)
+
+    def convert(self):
+        self.textBrowser.setHtml(self.textEdit.toPlainText())
+
+    def load_example(self):
+        with open('res/html_example.html', mode='r', encoding='utf-8') as f:
+            data = f.read()
+        self.textEdit.setPlainText(data)
+        self.convert()
+
+    def load_pattern(self):
+        with open('res/pattern.html', mode='r', encoding='utf-8') as f:
+            data = f.read()
+        self.textEdit.setPlainText(data)
+        self.convert()
 
     def go_back(self):
         self.try_window = TryWindow()
