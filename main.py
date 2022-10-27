@@ -1,8 +1,10 @@
 import sys
 
+import PyQt5.QtWidgets
 from PyQt5 import uic, QtGui, QtCore, QtWebEngineWidgets, QtWidgets
 from PyQt5.QtCore import QFile, QTextStream
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog
 
 if hasattr(QtCore.Qt, 'AA_EnableHighDpiScaling'):
     QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
@@ -179,6 +181,7 @@ class TryWindow(QMainWindow):
 
         self.BackBtn.clicked.connect(self.go_back)
         self.TryQBrowserBtn.clicked.connect(self.go_try_html)
+        self.TryImgBtn.clicked.connect(self.go_try_img)
 
     def go_back(self):
         self.menu_window = MenuWindow()
@@ -188,6 +191,11 @@ class TryWindow(QMainWindow):
     def go_try_html(self):
         self.try_html_window = TryHtmlWindow()
         self.try_html_window.show()
+        self.hide()
+
+    def go_try_img(self):
+        self.try_img_window = TryImgWindow()
+        self.try_img_window.show()
         self.hide()
 
 
@@ -223,6 +231,44 @@ class TryHtmlWindow(QMainWindow):
         self.try_window = TryWindow()
         self.try_window.show()
         self.hide()
+
+
+class TryImgWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi('UI/TryImg_window.ui', self)  # Загружаем дизайн
+        # настраеваем параметры окна
+        self.setWindowIcon(QtGui.QIcon('res/App_logo-256.png'))
+        self.setWindowTitle('Учебник PyQt')
+
+        scene = QtWidgets.QGraphicsScene(self)
+        pixmap = QPixmap('res/App_logo-256.png')
+        item = QtWidgets.QGraphicsPixmapItem(pixmap)
+        scene.addItem(item)
+        self.imgView.setScene(scene)
+
+        self.backBtn.clicked.connect(self.go_back)
+        self.openBtn.clicked.connect(self.open_img)
+        self.goDefaultBtn.clicked.connect(self.go_default)
+
+    def go_back(self):
+        self.menu_window = MenuWindow()
+        self.menu_window.show()
+        self.hide()
+
+    def open_img(self):
+        scene = QtWidgets.QGraphicsScene(self)
+        pixmap = QPixmap(QFileDialog.getOpenFileName(self, 'Выберете изображение', '')[0])
+        item = QtWidgets.QGraphicsPixmapItem(pixmap)
+        scene.addItem(item)
+        self.imgView.setScene(scene)
+
+    def go_default(self):
+        scene = QtWidgets.QGraphicsScene(self)
+        pixmap = QPixmap('res/App_logo-256.png')
+        item = QtWidgets.QGraphicsPixmapItem(pixmap)
+        scene.addItem(item)
+        self.imgView.setScene(scene)
 
 
 if __name__ == '__main__':
