@@ -241,11 +241,7 @@ class TryImgWindow(QMainWindow):
         self.setWindowIcon(QtGui.QIcon('res/App_logo-256.png'))
         self.setWindowTitle('Учебник PyQt')
 
-        scene = QtWidgets.QGraphicsScene(self)
-        pixmap = QPixmap('res/App_logo-256.png')
-        item = QtWidgets.QGraphicsPixmapItem(pixmap)
-        scene.addItem(item)
-        self.imgView.setScene(scene)
+        self.go_default()
 
         self.backBtn.clicked.connect(self.go_back)
         self.openBtn.clicked.connect(self.open_img)
