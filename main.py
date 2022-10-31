@@ -2,8 +2,11 @@ import sys
 
 import PyQt5.QtWidgets
 from PyQt5 import uic, QtGui, QtCore, QtWebEngineWidgets, QtWidgets
+import PyQt5.QtWebEngine
+# from PyQt5.QtWebEngineWidgets import *
 from PyQt5.QtCore import QFile, QTextStream
 from PyQt5.QtGui import QPixmap
+from PyQt5.QtSql import QSqlQuery, QSqlDatabase
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog
 
 if hasattr(QtCore.Qt, 'AA_EnableHighDpiScaling'):
@@ -182,6 +185,7 @@ class TryWindow(QMainWindow):
         self.BackBtn.clicked.connect(self.go_back)
         self.TryQBrowserBtn.clicked.connect(self.go_try_html)
         self.TryImgBtn.clicked.connect(self.go_try_img)
+        self.TryDBBtn.clicked.connect(self.go_try_db)
 
     def go_back(self):
         self.menu_window = MenuWindow()
@@ -196,6 +200,11 @@ class TryWindow(QMainWindow):
     def go_try_img(self):
         self.try_img_window = TryImgWindow()
         self.try_img_window.show()
+        self.hide()
+
+    def go_try_db(self):
+        self.try_bd_window = TryDBWindow()
+        self.try_bd_window.show()
         self.hide()
 
 
@@ -248,8 +257,8 @@ class TryImgWindow(QMainWindow):
         self.goDefaultBtn.clicked.connect(self.go_default)
 
     def go_back(self):
-        self.menu_window = MenuWindow()
-        self.menu_window.show()
+        self.try_window = TryWindow()
+        self.try_window.show()
         self.hide()
 
     def open_img(self):
@@ -265,6 +274,64 @@ class TryImgWindow(QMainWindow):
         item = QtWidgets.QGraphicsPixmapItem(pixmap)
         scene.addItem(item)
         self.imgView.setScene(scene)
+
+
+class TryDBWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi('UI/TryDB_window.ui', self)  # Загружаем дизайн
+        # настраеваем параметры окна
+        self.setWindowIcon(QtGui.QIcon('res/App_logo-256.png'))
+        self.setWindowTitle('Учебник PyQt')
+
+        self.backBtn.clicked.connect(self.go_back)
+        self.addBtn.clicked.connect(self.create_str)
+        self.updBtn.clicked.connect(self.update_str)
+        self.delBtn.clicked.connect(self.delete_str)
+
+        self.con = QSqlDatabase.addDatabase("QSQLITE")
+        self.con.setDatabaseName("res/db.db3")
+        self.con.open()
+
+        self.update_table()
+
+    def go_back(self):
+        self.try_window = TryWindow()
+        self.try_window.show()
+        self.hide()
+
+    def create_str(self):
+        self.con.exec_(f"""
+        INSERT INTO class (name)
+        VALUES ('{self.addInp.toPlainText()}');""")
+        self.update_table()
+        self.addInp.setText('')
+
+    def update_str(self):
+        self.con.exec_(f"""
+        UPDATE class SET name='{self.updSndInp.toPlainText()}' WHERE name='{self.updFstInp.toPlainText()}'
+        """)
+        self.update_table()
+        self.updFstInp.setText('')
+        self.updSndInp.setText('')
+
+    def delete_str(self):
+        self.con.exec_(f"""
+        DELETE FROM class
+        WHERE name = '{self.delInp.toPlainText()}'""")
+        self.update_table()
+        self.delInp.setText('')
+
+    def update_table(self):
+        self.table.setRowCount(0)
+        self.table.setColumnCount(1)
+        self.table.setHorizontalHeaderLabels(["ФИО"])
+        query = QSqlQuery("SELECT name FROM class")
+        while query.next():
+            rows = self.table.rowCount()
+            self.table.setRowCount(rows + 1)
+            self.table.setItem(rows, 0, PyQt5.QtWidgets.QTableWidgetItem(query.value(0)))
+        self.table.resizeColumnsToContents()
 
 
 if __name__ == '__main__':
