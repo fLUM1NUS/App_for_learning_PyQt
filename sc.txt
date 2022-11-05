@@ -3,6 +3,7 @@ import sys
 import PyQt5.QtWidgets
 from PyQt5 import uic, QtGui, QtCore, QtWebEngineWidgets, QtWidgets
 import PyQt5.QtWebEngine
+# from PyQt5.QtWebEngineWidgets import *
 from PyQt5.QtCore import QFile, QTextStream
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtSql import QSqlQuery, QSqlDatabase
@@ -73,7 +74,6 @@ class SettingsWindow(QMainWindow):
         self.setWindowIcon(QtGui.QIcon('res/App_logo-256.png'))
         self.setWindowTitle('Учебник PyQt')
 
-        # Привязываем к кнопкам действия
         self.BackBtn.clicked.connect(self.go_back)
         self.EnDarkBtn.clicked.connect(self.set_theme)
         self.saveCode.clicked.connect(self.save_code)
@@ -101,6 +101,7 @@ class SettingsWindow(QMainWindow):
     def save_code(self):
         with open('sc.txt') as f:
             sourceCode = f.read()
+            #QFileDialog.getSaveFileName('f', "Любой файл (*);;Text файл (*.txt);; Python файл (*.py)")
             PyQt5.QtWidgets.QFileDialog.saveFileContent(bytes(sourceCode, 'utf-8'), '1.txt')
 
 
@@ -112,7 +113,6 @@ class LearnWindow(QMainWindow):
         self.setWindowIcon(QtGui.QIcon('res/App_logo-256.png'))
         self.setWindowTitle('Учебник PyQt')
 
-        # Привязываем к кнопкам действия
         self.Btn_1.clicked.connect(self.show_text)
         self.Btn_2.clicked.connect(self.show_text)
         self.Btn_3.clicked.connect(self.show_text)
@@ -121,7 +121,6 @@ class LearnWindow(QMainWindow):
 
         self.BackBtn.clicked.connect(self.go_back)
 
-        # Настраеваем PDF.JS
         self.graphicsView.settings().setAttribute(QtWebEngineWidgets.QWebEngineSettings.PluginsEnabled, True)
         self.graphicsView.settings().setAttribute(QtWebEngineWidgets.QWebEngineSettings.PdfViewerEnabled, True)
         self.graphicsView.settings().setAttribute(
@@ -162,7 +161,6 @@ class TryWindow(QMainWindow):
         self.setWindowIcon(QtGui.QIcon('res/App_logo-256.png'))
         self.setWindowTitle('Учебник PyQt')
 
-        # Привязываем к кнопкам действия
         self.BackBtn.clicked.connect(self.go_back)
         self.TryQBrowserBtn.clicked.connect(self.go_try_html)
         self.TryImgBtn.clicked.connect(self.go_try_img)
@@ -197,7 +195,6 @@ class TryHtmlWindow(QMainWindow):
         self.setWindowIcon(QtGui.QIcon('res/App_logo-256.png'))
         self.setWindowTitle('Учебник PyQt')
 
-        # Привязываем к кнопкам действия
         self.BackBtn.clicked.connect(self.go_back)
         self.ConvertBtn.clicked.connect(self.convert)
         self.LoadExampleBtn.clicked.connect(self.load_example)
@@ -232,9 +229,8 @@ class TryImgWindow(QMainWindow):
         self.setWindowIcon(QtGui.QIcon('res/App_logo-256.png'))
         self.setWindowTitle('Учебник PyQt')
 
-        self.go_default()  # Устанавливаем изображение по умолчанию
+        self.go_default()
 
-        # Привязываем к кнопкам действия
         self.backBtn.clicked.connect(self.go_back)
         self.openBtn.clicked.connect(self.open_img)
         self.goDefaultBtn.clicked.connect(self.go_default)
@@ -267,7 +263,6 @@ class TryDBWindow(QMainWindow):
         self.setWindowIcon(QtGui.QIcon('res/App_logo-256.png'))
         self.setWindowTitle('Учебник PyQt')
 
-        # Привязываем к кнопкам действия
         self.chooseDB.addItems(["10 А", "10 Б"])
         self.chooseDB.activated[str].connect(self.choose_class)
 
