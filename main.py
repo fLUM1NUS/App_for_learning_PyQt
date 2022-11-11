@@ -92,16 +92,15 @@ class SettingsWindow(QMainWindow):
             t_settings = 'True'
         with open('res/settings.txt', mode='w') as f:
             f.write(t_settings)
-            print(t_settings)
         window = QtWidgets.QMainWindow()
         window.show()
         QtCore.QCoreApplication.quit()
         QtCore.QProcess.startDetached(sys.executable, sys.argv)
 
     def save_code(self):
-        with open('sc.txt') as f:
+        with open('sc.txt', encoding="utf8") as f:
             sourceCode = f.read()
-            PyQt5.QtWidgets.QFileDialog.saveFileContent(bytes(sourceCode, 'utf-8'), '1.txt')
+            QFileDialog.saveFileContent(bytes(sourceCode, 'utf-8'), 'PyQt-Learner_Source_Code.txt')
 
 
 class LearnWindow(QMainWindow):
